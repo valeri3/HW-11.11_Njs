@@ -1,0 +1,38 @@
+CREATE DATABASE ChatApp;
+GO
+
+USE ChatApp;
+GO
+
+-- Таблица пользователей
+CREATE TABLE users (
+    id INT IDENTITY PRIMARY KEY,
+    fio NVARCHAR(255) NOT NULL,
+    nickname NVARCHAR(255) UNIQUE NOT NULL,
+    dob DATE NOT NULL,
+    age AS (YEAR(GETDATE()) - YEAR(dob))
+);
+GO
+
+-- Таблица администраторов
+CREATE TABLE admins (
+    id INT IDENTITY PRIMARY KEY,
+    name NVARCHAR(255) NOT NULL,
+    nickname NVARCHAR(255) UNIQUE NOT NULL,
+    password NVARCHAR(255) NOT NULL -- Здесь хранить хэш пароля
+);
+GO
+
+-- Тестовые данные для пользователей
+INSERT INTO users (fio, nickname, dob)
+VALUES
+('Петров А.И.', 'PetrovAI', '1998-01-01'),
+('Иванов И.И.', 'IvanovII', '2000-05-15'),
+('Сидоров С.С.', 'SidorovSS', '1995-08-20');
+
+-- Тестовые данные для администраторов
+INSERT INTO admins (name, nickname, password)
+VALUES
+('Админ Первый', 'Admin1', HASHBYTES('SHA2_256', 'password1')),
+('Админ Второй', 'Admin2', HASHBYTES('SHA2_256', 'password2'));
+GO

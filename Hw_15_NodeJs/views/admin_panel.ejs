@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h2>Админ-панель</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>ФИО</th>
+            <th>Псевдоним</th>
+            <th>Дата рождения</th>
+            <th>Возраст</th>
+            <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% users.forEach(user => { %>
+            <tr>
+                <td><%= user.id %></td>
+                <td><%= user.fio %></td>
+                <td><%= user.nickname %></td>
+                <td><%= user.dob.toISOString().split('T')[0] %></td>
+                <td><%= user.age %></td>
+                <td>
+                    <form action="/admin/delete" method="POST">
+                        <input type="hidden" name="userId" value="<%= user.id %>">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
